@@ -1,42 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { HashRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import SignUpForm from './components/LoginSignup/SignUpForm';
+import SignInForm from './components/LoginSignup/SignInForm';
+
 import './App.css';
 
-import Login from './components/Login';
-import Register from './components/Register';
-
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
-
-class App extends React.Component {
-  render () {
+class App extends Component {
+  render() {
     return (
-      <Router>
-        <div className='App'>
+      <Router basename="/react-auth-ui/">
+        <div className="App">
+          <div className="App__Aside"></div>
+          <div className="App__Form">
+            <div className="PageSwitcher">
+                <NavLink to="/sign-in" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
+                <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
+              </div>
 
-          <ul>
-            <li>
-              <Link to='/'>Home</Link>
-            </li>
-            <li>
-              <Link to='/register'>Register</Link>
-            </li>
-            <li>
-              <Link to='/login'>Login</Link>
-            </li>
-          </ul>
+              <div className="FormTitle">
+                  <NavLink to="/sign-in" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign In</NavLink> or <NavLink exact to="/" activeClassName="FormTitle__Link--Active" className="FormTitle__Link">Sign Up</NavLink>
+              </div>
 
-          <div>
-            <Route path='/register' component={Register}/>
-            <Route path='/login' component={Login} />
+              <Route exact path="/" component={SignUpForm}>
+              </Route>
+              <Route path="/sign-in" component={SignInForm}>
+              </Route>
           </div>
 
-       </div>
-     </Router>
-     );
-   }
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
