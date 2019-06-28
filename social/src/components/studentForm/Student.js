@@ -1,6 +1,10 @@
 import React from 'react'
 
-const Student = props => {
+function Student(props) {
+  const student = props.students.find(
+    info => `${info.id}` === props.match.params.id
+  );
+
   return (
     <div className="Student">
       <h4>First Name: {props.firstName}</h4>
@@ -8,6 +12,12 @@ const Student = props => {
       <p>Phone: {props.phone}</p>
       <p>Email: {props.email}</p>
       <img src={props.photoUrl} alt={props.id} />
+      <button onClick={e => props.setUpdateStudent(e, student)} className="md-button">
+        Update Information
+      </button>
+      <button onClick={e => props.deleteStudent(e, student)} className="md-button">
+        Delete 
+      </button>
     </div>
   );
 };

@@ -2,23 +2,12 @@ import React from "react";
 
 class UpdateStudent extends React.Component {
   state = {
-    item: this.props.activeStudent
+    student: this.props.activeStudent
   };
 
-//   changeHandler = ev => {
-//     ev.persist();
-//     let value = ev.target.value;
-//     if (ev.target.name === "price") {
-//       value = parseInt(value, 10);
-//     }
-
-//     this.setState(prevState => ({
-//       item: {
-//         ...prevState.item,
-//         [ev.target.name]: value
-//       }
-//     }));
-//   };
+  handleInputChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   handleSubmit = e => {
     e.preventDefault();

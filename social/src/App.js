@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, 
-        withRouter,
-         NavLink } from 'react-router-dom';
+        withRouter,} from 'react-router-dom';
 import axios from 'axios';
 
 import SignUpForm from './components/LoginSignup/SignUpForm';
@@ -11,19 +10,21 @@ import UpdateStudent from './components/studentForm/UpdateStudent';
 import Students from './components/studentForm/Students';
 
 import './App.css';
+import Student from './components/studentForm/Student';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state= {
-      students:[]
+      students:[],
+      activeStudent: null
     };
   }
 componentDidMount() { 
   axios
   .get('http://localhost:5000/school')
-  .then(response => this.setState({ students: response.data }))
+  .then(response => this.setState({ students:response.data }))
   .catch(error => console.log(error));
  }
 
@@ -53,22 +54,25 @@ updateStudent = student => {
     .catch(error => console.log(error));
   }
 
+  deleteStudent = (e, student) => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:5000/school/:id${student.id}`)
+      .then(response => {
+        this.setState({ students: response.data });
+        this.props.history.push("/students");
+      })
+      .catch(err => console.log(err));
+    }
+
   render() {
     return (
         <div className="App">
           <nav>
           <h1 className="store-header">International Social Worker</h1>
-          <div className="nav-links">
-            <NavLink exact to="/addStudent">
-              Add Student
-            </NavLink>
-            <NavLink exact to="/students">
-              My Student List
-            </NavLink>
-          </div>
         </nav>
           <div className="App__Aside"></div>
-          <div className="App__Form">
+          <div className="App__Form"></div>
               <Route 
                 exact path="/" 
                 render={(props) => 
@@ -97,7 +101,15 @@ updateStudent = student => {
                 render={props => 
                   <Students {...props} students={this.state.students}/>}
               />
-          </div>
+              <Route
+                path='/students/:id'
+                render={props => (
+                  <Student
+                    {...props}
+                    deleteStudent={this.deleteStudent}
+                    setUpdateStudent={this.setUpdateStudent}
+                    students={this.state.students}/>)}
+              />
         </div>
     );
   }
