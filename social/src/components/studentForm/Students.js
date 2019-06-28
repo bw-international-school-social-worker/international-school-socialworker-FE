@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import Student from './Student';
 
@@ -7,6 +8,16 @@ class Students extends Component {
     return (
       <div className="Students">
         <h1>Student List</h1>
+        <nav>
+          <div className="nav-links">
+            <NavLink exact to="/addStudent">
+              Add Student
+            </NavLink>
+            <NavLink exact to="/students">
+              My Student List
+            </NavLink>
+          </div>
+        </nav>
         <ul>
           {this.props.students.map(student => {
             return (
